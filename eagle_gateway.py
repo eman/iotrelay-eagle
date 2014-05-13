@@ -37,7 +37,7 @@ class Poll(object):
             logger.info("{0!s}, {1!s}".format(timestamp, demand))
             self.last_timestamp = timestamp
             self.next_reading_time = datetime.datetime.now() + self.delta
-            return Reading('power_demand', demand, timestamp, self.series_key)
+            return Reading('power', demand, timestamp, self.series_key)
         else:
             logger.warning('duplicate reading')
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
