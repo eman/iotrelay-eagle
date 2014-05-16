@@ -26,13 +26,13 @@ class Poll(object):
 
     def get_readings(self):
         if datetime.datetime.now() < self.next_reading_time:
-            return ()
+            return
         try:
             timestamp, demand = self.gateway.get_instantaneous_demand()
         except GatewayError as e:
             logger.error(e)
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
-            return ()
+            return
         if self.last_timestamp is None or timestamp != self.last_timestamp:
             logger.info("{0!s}, {1!s}".format(timestamp, demand))
             self.last_timestamp = timestamp
@@ -41,4 +41,3 @@ class Poll(object):
         else:
             logger.warning('duplicate reading')
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
-            return ()
