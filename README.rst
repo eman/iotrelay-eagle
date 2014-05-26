@@ -4,7 +4,8 @@ Release v1.0.0
 
 iotrelay-eagle is a data source plugin for IoT Relay. It polls an
 Eagle™ Home Energy Gateway for power readings and forwards those
-readings to data handlers connected to IoT Relay.
+readings to data handlers connected to IoT Relay. This lets you pull
+data from a smart meter and forward it for logging or analysis.
 
 More information about IoT Relay may be found in its
 `Documentation <http://iot-relay.readthedocs.org>`_.
