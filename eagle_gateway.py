@@ -9,7 +9,7 @@ from iotrelay import Reading
 from meter_reader import Gateway, GatewayError
 
 logger = logging.getLogger(__name__)
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 class Poll(object):
