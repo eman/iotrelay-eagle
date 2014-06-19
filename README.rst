@@ -1,4 +1,4 @@
-IoT Relay-Eagle  -  An Eagle™ Home Energy Gateway plugin for IoT Relay
+**IoT Relay-Eagle**  -  An Eagle™ Home Energy Gateway plugin for IoT Relay
 
 Release v1.0.1
 
