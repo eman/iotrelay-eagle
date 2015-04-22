@@ -24,7 +24,7 @@ class Poll(object):
         # poll_frequency: seconds between readings
         poll_frequency = int(config.get('poll frequency', POLL_FREQUENCY))
         summ_poll_frequency = int(config.get('summation poll frequency',
-                                             SUMM_POLL_FREQUENCY)
+                                             SUMM_POLL_FREQUENCY))
         self.delta = datetime.timedelta(seconds=poll_frequency)
         self.next_reading_time = datetime.datetime.now()
         self.last_timestamp = None
