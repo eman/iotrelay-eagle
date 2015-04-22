@@ -25,17 +25,26 @@ class Poll(object):
         poll_frequency = int(config.get('poll frequency', POLL_FREQUENCY))
         summ_poll_frequency = int(config.get('summation poll frequency',
                                              SUMM_POLL_FREQUENCY))
+        self.summ_delta = datetime.timedelta(seconds=summ_poll_frequency)
         self.delta = datetime.timedelta(seconds=poll_frequency)
         self.next_reading_time = datetime.datetime.now()
+        self.summ_next_reading_time = datetime.datetime.now()
         self.last_timestamp = None
         self.last_summation = None
 
     def get_readings(self):
+        summation = self.get_summation()
+        power = self.get_power()
+        if summation is None:
+            return power
+        summation.append(power)
+        return summation
+
+    def get_power(self):
         if datetime.datetime.now() < self.next_reading_time:
             return
         try:
             timestamp, demand = self.gateway.get_instantaneous_demand()
-            summ = self.gateway.run_command(name='GET_SUMMATION_VALUES')[-1]
         except GatewayError as e:
             logger.error(e)
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
@@ -44,16 +53,18 @@ class Poll(object):
             logger.info("{0!s}, {1!s}".format(timestamp, demand))
             self.last_timestamp = timestamp
             self.next_reading_time = datetime.datetime.now() + self.delta
-            power = Reading('power', demand, timestamp, self.series_key)
-            if summ['TimeStamp'] == self.last_summation:
-                return power
-            self.last_summation = summ['TimeStamp']
-            return [power,
-                    Reading('power', summ['Value'], summ['TimeStamp'],
-                            'summation')]
+            return Reading('power', demand, timestamp, self.series_key)
         else:
             logger.warning('duplicate reading')
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
 
     def get_summation(self):
-        summation = self.gateway.run_command(name='GET_SUMMATION_VALUES')
+        if datetime.datetime.now() < self.summ_next_reading_time:
+            return
+        try:
+            summations = self.gateway.run_command(name='GET_SUMMATION_VALUES')
+        except GatewayError as e:
+            logger.error(e)
+        self.sum_next_reading_time = datetime.datetime.now() + self.summ_delta
+        return [Reading('power', s['Value'], s['TimeStamp'], 'summation')
+                for s in summations]
