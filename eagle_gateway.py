@@ -11,6 +11,9 @@ from meter_reader import Gateway, GatewayError
 logger = logging.getLogger(__name__)
 __version__ = "1.0.1"
 
+POLL_FREQUENCY = 9
+SUMM_POLL_FREQUENCY = 600
+
 
 class Poll(object):
     def __init__(self, config):
@@ -19,7 +22,9 @@ class Poll(object):
         self.gateway = Gateway(config['address'])
         self.gateway.timeout = float(config['timeout'])
         # poll_frequency: seconds between readings
-        poll_frequency = int(config['poll frequency'])
+        poll_frequency = int(config.get('poll frequency', POLL_FREQUENCY))
+        summ_poll_frequency = int(config.get('summation poll frequency',
+                                             SUMM_POLL_FREQUENCY)
         self.delta = datetime.timedelta(seconds=poll_frequency)
         self.next_reading_time = datetime.datetime.now()
         self.last_timestamp = None
@@ -30,7 +35,7 @@ class Poll(object):
             return
         try:
             timestamp, demand = self.gateway.get_instantaneous_demand()
-            summ = self.gateway.run_command(name='GET_SUMMATION_VALUES')[-2]
+            summ = self.gateway.run_command(name='GET_SUMMATION_VALUES')[-1]
         except GatewayError as e:
             logger.error(e)
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
@@ -49,3 +54,6 @@ class Poll(object):
         else:
             logger.warning('duplicate reading')
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
+
+    def get_summation(self):
+        summation = self.gateway.run_command(name='GET_SUMMATION_VALUES')
