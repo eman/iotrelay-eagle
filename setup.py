@@ -10,7 +10,7 @@ for rst in ('README.rst', 'LICENSE.rst'):
         long_descriptions.append(f.read())
 
 setup(name='iotrelay-eagle',
-      version='1.0.1',
+      version='1.0.2',
       description='IoT Relay plugin for the Eagle™ Home Energy Gateway',
       long_description='\n\n'.join(long_descriptions),
       author='Emmanuel Levijarvi',

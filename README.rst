@@ -2,7 +2,7 @@ IoT Relay-Eagle
 ----------------------------------------------------
 An Eagle™ Home Energy Gateway plugin for IoT Relay
 
-Release v1.0.1
+Release v1.0.2
 
 iotrelay-eagle is a data source plugin for IoT Relay. It polls an
 Eagle™ Home Energy Gateway for power readings and forwards those
