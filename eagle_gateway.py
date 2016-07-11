@@ -1,7 +1,7 @@
 '''
-Copyright (c) 2015, Emmanuel Levijarvi
+Copyright (c) 2016, Emmanuel Levijarvi
 All rights reserved.
-License BSD
+License BSD 2-Clause
 '''
 import logging
 import datetime
@@ -62,7 +62,7 @@ class Poll(object):
         if datetime.datetime.now() < self.summ_next_reading_time:
             return
         try:
-            summations = self.gateway.run_command(name='GET_SUMMATION_VALUES')
+            summations = self.gateway.run_command(name='get_summation_values')
         except GatewayError as e:
             logger.error(e)
         self.sum_next_reading_time = datetime.datetime.now() + self.summ_delta
