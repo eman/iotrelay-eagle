@@ -45,6 +45,7 @@ class Poll(object):
             return
         try:
             timestamp, demand = self.gateway.get_instantaneous_demand()
+            logger.debug(timestamp, demand)
         except GatewayError as e:
             logger.error(e)
             self.next_reading_time = datetime.datetime.now() + self.delta / 2
@@ -68,3 +69,6 @@ class Poll(object):
         self.sum_next_reading_time = datetime.datetime.now() + self.summ_delta
         return [Reading('power', s['Value'], s['TimeStamp'], 'summation')
                 for s in summations]
+
+    def __str__(self):
+        return 'eagle gateway. next reading {}.'.format(self.next_reading_time)
