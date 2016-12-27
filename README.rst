@@ -1,5 +1,9 @@
 IoT Relay-Eagle
 ----------------------------------------------------
+
+.. image:: https://api.codacy.com/project/badge/Grade/cdf2de06feec45dfbd90d3aeaded495b
+   :alt: Codacy Badge
+   :target: https://www.codacy.com/app/emansl/iotrelay-eagle?utm_source=github.com&utm_medium=referral&utm_content=eman/iotrelay-eagle&utm_campaign=badger
 An Eagle™ Home Energy Gateway plugin for IoT Relay
 
 Release v1.0.2
